@@ -35,6 +35,6 @@ class Config implements IConfig
 
     public function get(string $key): ?string
     {
-        return $this->configs[$key] ?? '';
+        return $this->configs[$key];
     }
 }

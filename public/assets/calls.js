@@ -1,4 +1,4 @@
-var inputValue = "";
+var inputValue = $("[name=path]").val();
 $("[name=path]").on("change", function () {
     inputValue = $(this).val();
 });
@@ -48,7 +48,6 @@ $(document).ready(function () {
 });
 
 function load_data(page) {
-    let returnedData = "";
     if (!inputValue) return;
 
     $.ajax({
@@ -58,30 +57,18 @@ function load_data(page) {
         success: function (data) {
             $("#data").html(data);
             $("#page").val(page);
-            let url =
-                "/?" +
-                $.param({
-                    "page=": page,
-                    "&path=": inputValue,
-                });
-            window.history.pushState(
-                {
-                    path: url,
-                },
-                "",
-                url
-            );
+            let url = "?" + $.param({ page: page, path: inputValue });
+            window.history.pushState({ path: url }, "", url);
         },
         error: function (xhr, status, error) {
             $("#data").html(xhr.responseText);
         },
     });
 
-    update_pagination(page, returnedData);
+    update_pagination(page);
 }
 
 function load_last_page_data() {
-    let returnedData = "";
     if (!inputValue) return;
 
     $.ajax({
@@ -91,29 +78,18 @@ function load_last_page_data() {
         success: function (data) {
             $("#data").html(data);
             $("#page").val(page);
-            let url =
-                "/?" +
-                $.param({
-                    "page=": page,
-                    "&path=": inputValue,
-                });
-            window.history.pushState(
-                {
-                    path: url,
-                },
-                "",
-                url
-            );
+            let url = "?" + $.param({ page: page, path: inputValue });
+            window.history.pushState({ path: url }, "", url);
         },
         error: function (xhr, status, error) {
             $("#data").html(xhr.responseText);
         },
     });
 
-    update_pagination(page, returnedData);
+    update_pagination(page);
 }
 
-function update_pagination(page, data) {
+function update_pagination(page) {
     if (page < 0) {
         $("#previous").attr("disabled", true);
     } else {
